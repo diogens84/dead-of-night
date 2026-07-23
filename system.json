@@ -2,7 +2,7 @@
   "id": "dead-of-night",
   "title": "Dead of Night (2nd Edition)",
   "description": "A rules-lite horror RPG system for Foundry VTT focused on resource management (Survival Points vs Global Tension Track).",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "compatibility": {
     "minimum": "11",
     "verified": "13"
@@ -38,5 +38,5 @@
   "secondaryTokenAttribute": "tension",
   "url": "https://github.com/diogens84/dead-of-night",
   "manifest": "https://github.com/diogens84/dead-of-night/releases/latest/download/system.json",
-  "download": "https://github.com/diogens84/dead-of-night/releases/download/v1.2.1/dead-of-night.zip"
+  "download": "https://github.com/diogens84/dead-of-night/releases/download/v1.3.0/dead-of-night.zip"
 }
