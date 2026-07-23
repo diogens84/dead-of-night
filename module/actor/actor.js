@@ -1,6 +1,15 @@
 import { emitUpdateTension } from "../socket.js";
 
 export class DeadOfNightActor extends Actor {
+  _parseAttrValue(val) {
+    if (val === null || val === undefined) return 5;
+    if (typeof val === "object" && val !== null) {
+      return this._parseAttrValue(val.value);
+    }
+    const parsed = parseInt(val, 10);
+    return Number.isNaN(parsed) ? 5 : Math.max(0, Math.min(10, parsed));
+  }
+
   /** @override */
   prepareDerivedData() {
     super.prepareDerivedData();
@@ -10,17 +19,17 @@ export class DeadOfNightActor extends Actor {
       const attrs = systemData.attributes || {};
 
       // Parse base values strictly (A + B = 10)
-      const baseIdentify = Math.max(0, Math.min(10, parseInt(attrs.identify, 10) ?? 5));
-      const baseObscure = Math.max(0, Math.min(10, 10 - baseIdentify));
+      const baseIdentify = this._parseAttrValue(attrs.identify);
+      const baseObscure = 10 - baseIdentify;
 
-      const basePersuade = Math.max(0, Math.min(10, parseInt(attrs.persuade, 10) ?? 5));
-      const baseDissuade = Math.max(0, Math.min(10, 10 - basePersuade));
+      const basePersuade = this._parseAttrValue(attrs.persuade);
+      const baseDissuade = 10 - basePersuade;
 
-      const basePursue = Math.max(0, Math.min(10, parseInt(attrs.pursue, 10) ?? 5));
-      const baseEscape = Math.max(0, Math.min(10, 10 - basePursue));
+      const basePursue = this._parseAttrValue(attrs.pursue);
+      const baseEscape = 10 - basePursue;
 
-      const baseAssault = Math.max(0, Math.min(10, parseInt(attrs.assault, 10) ?? 5));
-      const baseProtect = Math.max(0, Math.min(10, 10 - baseAssault));
+      const baseAssault = this._parseAttrValue(attrs.assault);
+      const baseProtect = 10 - baseAssault;
 
       // Calculate penalties from all active specialisation items
       const penalties = {

@@ -13,6 +13,10 @@ export class DeadOfNightSpecialisationSheet extends ItemSheet {
   async getData(options) {
     const context = await super.getData(options);
     context.system = this.item.system;
+    context.descriptionHTML = await TextEditor.enrichHTML(this.item.system.description || "", {
+      async: true,
+      relativeTo: this.item
+    });
     return context;
   }
 

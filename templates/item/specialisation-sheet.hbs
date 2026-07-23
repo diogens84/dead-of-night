@@ -34,7 +34,7 @@
     <div class="form-group flexcol">
       <label style="color: #ffffff !important;">{{localize "DON.Description"}}</label>
       <div class="editor-container">
-        {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+        {{editor descriptionHTML target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
       </div>
     </div>
   </div>

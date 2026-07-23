@@ -193,24 +193,16 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     const itemData = {
       name: defaultName,
       type: type,
-      img: "icons/svg/item-bag.svg",
+      img: type === "specialisation" ? "icons/svg/book.svg" : "icons/svg/item-bag.svg",
       system: {
         attributePair: "identify_obscure",
         reductionMode: "both"
       }
     };
     
-    const created = await this.actor.createEmbeddedDocuments("Item", [itemData]);
-    if (created && created.length > 0) {
-      const createdId = created[0].id || created[0]._id;
-      const item = this.actor.items.get(createdId) || created[0];
-      if (item && item.sheet) {
-        item.sheet.render(true, { focus: true });
-        setTimeout(() => {
-          const liveItem = this.actor.items.get(createdId);
-          if (liveItem && liveItem.sheet) liveItem.sheet.render(true, { focus: true });
-        }, 100);
-      }
+    const createdItem = await Item.create(itemData, { parent: this.actor });
+    if (createdItem && createdItem.sheet) {
+      createdItem.sheet.render(true, { focus: true });
     }
   }
 

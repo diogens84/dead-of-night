@@ -5,14 +5,14 @@
       "concept": "",
       "badHabits": "",
       "attributes": {
-        "identify": { "value": 5 },
-        "obscure": { "value": 5 },
-        "persuade": { "value": 5 },
-        "dissuade": { "value": 5 },
-        "pursue": { "value": 5 },
-        "escape": { "value": 5 },
-        "assault": { "value": 5 },
-        "protect": { "value": 5 }
+        "identify": 5,
+        "obscure": 5,
+        "persuade": 5,
+        "dissuade": 5,
+        "pursue": 5,
+        "escape": 5,
+        "assault": 5,
+        "protect": 5
       },
       "survivalPoints": {
         "value": 5,
@@ -23,14 +23,14 @@
     },
     "monster": {
       "attributes": {
-        "identify": { "value": 5 },
-        "obscure": { "value": 5 },
-        "persuade": { "value": 5 },
-        "dissuade": { "value": 5 },
-        "pursue": { "value": 5 },
-        "escape": { "value": 5 },
-        "assault": { "value": 5 },
-        "protect": { "value": 5 }
+        "identify": 5,
+        "obscure": 5,
+        "persuade": 5,
+        "dissuade": 5,
+        "pursue": 5,
+        "escape": 5,
+        "assault": 5,
+        "protect": 5
       },
       "survivalPoints": {
         "value": 5,
