@@ -15,6 +15,7 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     const context = super.getData();
     context.system = context.actor.system;
     const attrs = context.system.attributes || {};
+    const penalties = attrs.penalties || {};
 
     // Map attribute pairs showing effective values (after specialisation reductions)
     context.attributePairs = [
@@ -24,10 +25,12 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
         labelA: game.i18n.localize("DON.Identify"),
         valA: attrs.effectiveIdentify ?? attrs.identify ?? 5,
         baseValA: attrs.identify ?? 5,
+        penA: penalties.identify ?? 0,
         keyB: "obscure",
         labelB: game.i18n.localize("DON.Obscure"),
         valB: attrs.effectiveObscure ?? attrs.obscure ?? 5,
-        baseValB: attrs.obscure ?? 5
+        baseValB: attrs.obscure ?? 5,
+        penB: penalties.obscure ?? 0
       },
       {
         pairKey: "persuade_dissuade",
@@ -35,10 +38,12 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
         labelA: game.i18n.localize("DON.Persuade"),
         valA: attrs.effectivePersuade ?? attrs.persuade ?? 5,
         baseValA: attrs.persuade ?? 5,
+        penA: penalties.persuade ?? 0,
         keyB: "dissuade",
         labelB: game.i18n.localize("DON.Dissuade"),
         valB: attrs.effectiveDissuade ?? attrs.dissuade ?? 5,
-        baseValB: attrs.dissuade ?? 5
+        baseValB: attrs.dissuade ?? 5,
+        penB: penalties.dissuade ?? 0
       },
       {
         pairKey: "pursue_escape",
@@ -46,10 +51,12 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
         labelA: game.i18n.localize("DON.Pursue"),
         valA: attrs.effectivePursue ?? attrs.pursue ?? 5,
         baseValA: attrs.pursue ?? 5,
+        penA: penalties.pursue ?? 0,
         keyB: "escape",
         labelB: game.i18n.localize("DON.Escape"),
         valB: attrs.effectiveEscape ?? attrs.escape ?? 5,
-        baseValB: attrs.escape ?? 5
+        baseValB: attrs.escape ?? 5,
+        penB: penalties.escape ?? 0
       },
       {
         pairKey: "assault_protect",
@@ -57,10 +64,12 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
         labelA: game.i18n.localize("DON.Assault"),
         valA: attrs.effectiveAssault ?? attrs.assault ?? 5,
         baseValA: attrs.assault ?? 5,
+        penA: penalties.assault ?? 0,
         keyB: "protect",
         labelB: game.i18n.localize("DON.Protect"),
         valB: attrs.effectiveProtect ?? attrs.protect ?? 5,
-        baseValB: attrs.protect ?? 5
+        baseValB: attrs.protect ?? 5,
+        penB: penalties.protect ?? 0
       }
     ];
 
@@ -115,16 +124,22 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     if (!this.isEditable) return;
 
     // Synchronized Dual-Slider Input logic (A + B = 10)
-    html.find(".attr-slider").on("input change", (e) => {
+    html.find(".attr-slider").on("input", (e) => {
       const slider = e.currentTarget;
       const keyA = slider.dataset.keyA;
       const keyB = slider.dataset.keyB;
-      const valA = Math.max(0, Math.min(10, parseInt(slider.value, 10) || 0));
-      const valB = 10 - valA;
+      const penA = parseInt(slider.dataset.penA, 10) || 0;
+      const penB = parseInt(slider.dataset.penB, 10) || 0;
+
+      const baseA = Math.max(0, Math.min(10, parseInt(slider.value, 10) || 0));
+      const baseB = 10 - baseA;
+
+      const effA = Math.max(0, baseA - penA);
+      const effB = Math.max(0, baseB - penB);
 
       // Update UI displays in real time
-      html.find(`.attr-val[data-key="${keyA}"]`).text(valA);
-      html.find(`.attr-val[data-key="${keyB}"]`).text(valB);
+      html.find(`.attr-val[data-key="${keyA}"]`).text(effA);
+      html.find(`.attr-val[data-key="${keyB}"]`).text(effB);
     });
 
     // Roll Attribute
@@ -183,7 +198,10 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     
     const created = await this.actor.createEmbeddedDocuments("Item", [itemData]);
     if (created && created.length > 0) {
-      created[0].sheet.render(true, { focus: true });
+      const item = created[0];
+      setTimeout(() => {
+        item.sheet?.render(true, { focus: true });
+      }, 50);
     }
   }
 

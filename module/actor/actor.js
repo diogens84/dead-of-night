@@ -75,6 +75,7 @@ export class DeadOfNightActor extends Actor {
       attrs.escape = baseEscape;
       attrs.assault = baseAssault;
       attrs.protect = baseProtect;
+      attrs.penalties = penalties;
 
       // Compute Specialisation Rating: Max(Base Pair Attributes) + 2 (Max 10)
       if (this.items) {

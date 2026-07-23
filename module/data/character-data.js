@@ -12,7 +12,15 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
         pursue: new fields.NumberField({ required: true, integer: true, initial: 5, min: 0, max: 10 }),
         escape: new fields.NumberField({ required: true, integer: true, initial: 5, min: 0, max: 10 }),
         assault: new fields.NumberField({ required: true, integer: true, initial: 5, min: 0, max: 10 }),
-        protect: new fields.NumberField({ required: true, integer: true, initial: 5, min: 0, max: 10 })
+        protect: new fields.NumberField({ required: true, integer: true, initial: 5, min: 0, max: 10 }),
+        effectiveIdentify: new fields.NumberField({ required: false, integer: true }),
+        effectiveObscure: new fields.NumberField({ required: false, integer: true }),
+        effectivePersuade: new fields.NumberField({ required: false, integer: true }),
+        effectiveDissuade: new fields.NumberField({ required: false, integer: true }),
+        effectivePursue: new fields.NumberField({ required: false, integer: true }),
+        effectiveEscape: new fields.NumberField({ required: false, integer: true }),
+        effectiveAssault: new fields.NumberField({ required: false, integer: true }),
+        effectiveProtect: new fields.NumberField({ required: false, integer: true })
       }),
       survivalPoints: new fields.SchemaField({
         value: new fields.NumberField({ required: true, integer: true, initial: 5, min: 0, max: 5 }),
