@@ -74,15 +74,17 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     ];
 
     // Filter and format specialisations: Rating = Max(Base Pair Attributes) + 2
-    context.specialisations = context.items
-      .filter(i => i.type === "specialisation")
+    const itemsList = context.items || [];
+    context.specialisations = itemsList
+      .filter(i => (i.type || i.document?.type) === "specialisation")
       .map(i => {
-        const itemObj = i.toObject(false);
-        const itemId = i.id || i._id;
+        const itemObj = typeof i.toObject === "function" ? i.toObject(false) : foundry.utils.deepClone(i);
+        const itemId = i.id || i._id || itemObj._id || itemObj.id;
         itemObj._id = itemId;
         itemObj.id = itemId;
 
-        const pairKey = i.system?.attributePair || "identify_obscure";
+        const systemData = i.system || itemObj.system || {};
+        const pairKey = systemData.attributePair || "identify_obscure";
         let valA = attrs.identify ?? 5;
         let valB = attrs.obscure ?? 5;
 
@@ -98,7 +100,8 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
         }
 
         const maxPair = Math.max(valA, valB);
-        const rating = Math.min(10, maxPair + 2);
+        const bonus = systemData.bonus ?? 2;
+        const rating = Math.min(10, maxPair + bonus);
 
         itemObj.derivedRating = rating;
         itemObj.pairLabel = game.i18n.localize(this._getPairLocalizationKey(pairKey));
@@ -120,11 +123,12 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
 
   activateListeners(html) {
     super.activateListeners(html);
+    const $html = $(html);
 
     if (!this.isEditable) return;
 
     // Synchronized Dual-Slider Input logic (A + B = 10)
-    html.find(".attr-slider").on("input", (e) => {
+    $html.find(".attr-slider").on("input", (e) => {
       const slider = e.currentTarget;
       const keyA = slider.dataset.keyA;
       const keyB = slider.dataset.keyB;
@@ -138,12 +142,12 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
       const effB = Math.max(0, baseB - penB);
 
       // Update UI displays in real time
-      html.find(`.attr-val[data-key="${keyA}"]`).text(effA);
-      html.find(`.attr-val[data-key="${keyB}"]`).text(effB);
+      $html.find(`.attr-val[data-key="${keyA}"]`).text(effA);
+      $html.find(`.attr-val[data-key="${keyB}"]`).text(effB);
     });
 
     // Roll Attribute
-    html.find(".roll-attribute").click(async (e) => {
+    $html.find(".roll-attribute").click(async (e) => {
       e.preventDefault();
       const attributeKey = e.currentTarget.dataset.attribute;
       await DeadOfNightRoll.roll({
@@ -153,7 +157,7 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     });
 
     // Roll Specialisation
-    html.find(".roll-specialisation").click(async (e) => {
+    $html.find(".roll-specialisation").click(async (e) => {
       e.preventDefault();
       const itemElement = e.currentTarget.closest(".item");
       const itemId = itemElement?.dataset?.itemId;
@@ -167,15 +171,15 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     });
 
     // Spend Survival Point
-    html.find(".spend-sp-btn").click(async (e) => {
+    $html.find(".spend-sp-btn").click(async (e) => {
       e.preventDefault();
       await this.actor.spendSurvivalPoint();
     });
 
     // Item Management Event Listeners
-    html.find(".item-create").click(this._onItemCreate.bind(this));
-    html.find(".item-edit").click(this._onItemEdit.bind(this));
-    html.find(".item-delete").click(this._onItemDelete.bind(this));
+    $html.find(".item-create").click(this._onItemCreate.bind(this));
+    $html.find(".item-edit").click(this._onItemEdit.bind(this));
+    $html.find(".item-delete").click(this._onItemDelete.bind(this));
   }
 
   async _onItemCreate(event) {
@@ -200,11 +204,13 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     if (created && created.length > 0) {
       const createdId = created[0].id || created[0]._id;
       const item = this.actor.items.get(createdId) || created[0];
-      item.sheet?.render(true, { focus: true });
-      setTimeout(() => {
-        const liveItem = this.actor.items.get(createdId);
-        if (liveItem) liveItem.sheet?.render(true, { focus: true });
-      }, 50);
+      if (item && item.sheet) {
+        item.sheet.render(true, { focus: true });
+        setTimeout(() => {
+          const liveItem = this.actor.items.get(createdId);
+          if (liveItem && liveItem.sheet) liveItem.sheet.render(true, { focus: true });
+        }, 100);
+      }
     }
   }
 

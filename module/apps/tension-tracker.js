@@ -27,20 +27,21 @@ export class TensionTracker extends Application {
 
   activateListeners(html) {
     super.activateListeners(html);
+    const $html = $(html);
 
-    html.find(".tension-btn-plus").click(async (e) => {
+    $html.find(".tension-btn-plus").click(async (e) => {
       e.preventDefault();
       await emitUpdateTension(1);
       this.render(false);
     });
 
-    html.find(".tension-btn-minus").click(async (e) => {
+    $html.find(".tension-btn-minus").click(async (e) => {
       e.preventDefault();
       await emitUpdateTension(-1);
       this.render(false);
     });
 
-    html.find(".tension-btn-reset").click(async (e) => {
+    $html.find(".tension-btn-reset").click(async (e) => {
       e.preventDefault();
       if (game.user.isGM) {
         await game.settings.set("dead-of-night", "tensionTrack", 1);

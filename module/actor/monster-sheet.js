@@ -34,11 +34,12 @@ export class DeadOfNightMonsterSheet extends ActorSheet {
 
   activateListeners(html) {
     super.activateListeners(html);
+    const $html = $(html);
 
     if (!this.isEditable) return;
 
     // Roll Attribute
-    html.find(".roll-attribute").click(async (e) => {
+    $html.find(".roll-attribute").click(async (e) => {
       e.preventDefault();
       const attributeKey = e.currentTarget.dataset.attribute;
       await DeadOfNightRoll.roll({
@@ -48,7 +49,7 @@ export class DeadOfNightMonsterSheet extends ActorSheet {
     });
 
     // Item creation
-    html.find(".ability-create").click(async (e) => {
+    $html.find(".ability-create").click(async (e) => {
       e.preventDefault();
       const itemData = {
         name: game.i18n.localize("DON.AddMonstrousAbility"),
@@ -58,13 +59,13 @@ export class DeadOfNightMonsterSheet extends ActorSheet {
       await this.actor.createEmbeddedDocuments("Item", [itemData]);
     });
 
-    html.find(".item-edit").click((e) => {
+    $html.find(".item-edit").click((e) => {
       const itemId = e.currentTarget.closest(".item").dataset.itemId;
       const item = this.actor.items.get(itemId);
       item?.sheet?.render(true);
     });
 
-    html.find(".item-delete").click(async (e) => {
+    $html.find(".item-delete").click(async (e) => {
       const itemId = e.currentTarget.closest(".item").dataset.itemId;
       await this.actor.deleteEmbeddedDocuments("Item", [itemId]);
     });
