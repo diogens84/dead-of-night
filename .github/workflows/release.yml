@@ -1,0 +1,28 @@
+name: Release Creation
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Zip Archive
+        run: |
+          zip -r ./dead-of-night.zip system.json template.json module styles templates lang
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            system.json
+            dead-of-night.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

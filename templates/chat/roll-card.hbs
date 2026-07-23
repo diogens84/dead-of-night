@@ -1,0 +1,49 @@
+<div class="don-chat-card flexcol">
+  <div class="card-header flexrow">
+    <img src="{{actor.img}}" width="32" height="32"/>
+    <div class="header-text flexcol">
+      <span class="actor-name">{{actor.name}}</span>
+      <span class="roll-title">{{attributeLabel}} {{#if item}}({{item.name}}){{/if}}</span>
+    </div>
+  </div>
+
+  <div class="card-roll-details flexcol">
+    <div class="dice-formula flexrow">
+      <span>Formula: 2d10 + {{totalModifier}}</span>
+    </div>
+
+    <div class="dice-breakdown flexrow">
+      <div class="dice-tag">
+        <i class="fas fa-dice"></i> Dice: [{{#each diceResults}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}]
+      </div>
+      <div class="mod-tag">
+        <i class="fas fa-sliders"></i> Mod: +{{totalModifier}}
+      </div>
+    </div>
+
+    <div class="total-comparison flexrow">
+      <div class="total-value">
+        <span>Total:</span> <strong>{{rollTotal}}</strong>
+      </div>
+      <div class="tn-value">
+        <span>{{localize "DON.TargetNumberShort"}}:</span> <strong>{{targetNumber}}</strong>
+      </div>
+    </div>
+
+    <div class="outcome-badge {{#if isSuccess}}success{{else}}failure{{/if}}">
+      {{#if isSuccess}}
+        <i class="fas fa-check-circle"></i> {{localize "DON.Success"}}
+      {{else}}
+        <i class="fas fa-skull"></i> {{localize "DON.Failure"}}
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="card-actions flexcol">
+    {{#if canSpendSP}}
+      <button type="button" class="sp-reroll-btn" data-action="reroll">
+        <i class="fas fa-ghost"></i> {{localize "DON.Reroll"}} ({{localize "DON.SpendSP"}})
+      </button>
+    {{/if}}
+  </div>
+</div>

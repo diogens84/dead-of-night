@@ -1,0 +1,22 @@
+<form class="{{cssClass}} flexcol don-item-sheet" autocomplete="off">
+  <header class="sheet-header flexrow">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    <div class="header-details flexcol">
+      <h1><input name="name" type="text" value="{{item.name}}" placeholder="Ability Name"/></h1>
+    </div>
+  </header>
+
+  <div class="sheet-body flexcol">
+    <div class="form-group flexrow">
+      <label>{{localize "DON.Cost"}}</label>
+      <input type="number" name="system.cost" value="{{system.cost}}" min="0"/>
+    </div>
+
+    <div class="form-group flexcol">
+      <label>{{localize "DON.Description"}}</label>
+      <div class="editor-container">
+        {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+      </div>
+    </div>
+  </div>
+</form>

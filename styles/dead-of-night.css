@@ -1,0 +1,596 @@
+/* ==========================================================================
+   DEAD OF NIGHT (2ND EDITION) - SYSTEM STYLESHEET
+   Dark Horror Theme for Foundry VTT (v11 & v12)
+   ========================================================================== */
+
+:root {
+  --don-bg-dark: #101216;
+  --don-bg-card: #181b22;
+  --don-bg-input: #1c2029;
+  --don-border-dark: #4c566a;
+  --don-crimson-main: #b91c1c;
+  --don-crimson-bright: #ef4444;
+  --don-crimson-glow: rgba(239, 68, 68, 0.35);
+  --don-gold: #d97706;
+  --don-gold-glow: rgba(217, 119, 6, 0.3);
+  --don-text-light: #ffffff;
+  --don-font-main: "Signika", sans-serif;
+}
+
+/* -------------------------------------------- */
+/*  Sheet Layout & High Contrast White Text     */
+/* -------------------------------------------- */
+.dead-of-night,
+.dead-of-night.sheet,
+.dead-of-night.sheet .window-content,
+.dead-of-night.sheet form,
+.dead-of-night.sheet div,
+.dead-of-night.sheet p,
+.dead-of-night.sheet span,
+.dead-of-night.sheet label,
+.dead-of-night.sheet input,
+.dead-of-night.sheet select,
+.dead-of-night.sheet option,
+.dead-of-night.sheet textarea,
+.dead-of-night.sheet h1,
+.dead-of-night.sheet h2,
+.dead-of-night.sheet h3 {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-family: var(--don-font-main);
+}
+
+.dead-of-night.sheet {
+  background: var(--don-bg-dark) !important;
+  border: 1px solid var(--don-border-dark);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75);
+}
+
+.dead-of-night.sheet .window-content {
+  background: var(--don-bg-dark) !important;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+/* Force dark input background with white text */
+.dead-of-night input,
+.dead-of-night select,
+.dead-of-night option,
+.dead-of-night textarea,
+.dead-of-night input[type="text"],
+.dead-of-night input[type="number"],
+.dead-of-night .form-group input,
+.dead-of-night .form-group select {
+  background-color: #1c2029 !important;
+  border: 1px solid #4c566a !important;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 13px;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.dead-of-night input:focus,
+.dead-of-night select:focus,
+.dead-of-night textarea:focus {
+  border-color: var(--don-crimson-bright) !important;
+  box-shadow: 0 0 6px var(--don-crimson-glow) !important;
+  outline: none;
+}
+
+/* Header Inputs (Charname & Item Name) */
+.dead-of-night .sheet-header {
+  border-bottom: 2px solid var(--don-crimson-main);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+  gap: 12px;
+}
+
+.dead-of-night .sheet-header img.profile-img {
+  border: 2px solid var(--don-crimson-main);
+  border-radius: 6px;
+  box-shadow: 0 0 10px var(--don-crimson-glow);
+  object-fit: cover;
+}
+
+.dead-of-night .sheet-header h1.charname input,
+.dead-of-night .sheet-header h1 input {
+  background: #1c2029 !important;
+  border: 1px solid var(--don-border-dark) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 4px 8px;
+  width: 100%;
+}
+
+.dead-of-night .concept-habits-row {
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.dead-of-night .concept-habits-row .field-group {
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+/* -------------------------------------------- */
+/*  Survival Points Bar                         */
+/* -------------------------------------------- */
+.dead-of-night .sp-bar {
+  background: var(--don-bg-card);
+  border: 1px solid var(--don-border-dark);
+  border-radius: 6px;
+  padding: 6px 12px;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.dead-of-night .sp-label {
+  color: var(--don-crimson-bright) !important;
+  -webkit-text-fill-color: var(--don-crimson-bright) !important;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dead-of-night .sp-inputs {
+  align-items: center;
+  gap: 4px;
+  font-weight: bold;
+}
+
+.dead-of-night .sp-value-input {
+  width: 45px !important;
+  text-align: center;
+  background: #1c2029 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 1px solid var(--don-crimson-main) !important;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.dead-of-night .spend-sp-btn {
+  background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 100%);
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border: 1px solid var(--don-crimson-bright);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dead-of-night .spend-sp-btn:hover {
+  background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
+  box-shadow: 0 0 12px var(--don-crimson-glow);
+  transform: translateY(-1px);
+}
+
+/* -------------------------------------------- */
+/*  Single Page Sections & Textareas            */
+/* -------------------------------------------- */
+.dead-of-night .sheet-section {
+  background: var(--don-bg-card);
+  border: 1px solid var(--don-border-dark);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.dead-of-night .section-header {
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--don-border-dark);
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+.dead-of-night .section-header h3 {
+  color: var(--don-crimson-bright) !important;
+  -webkit-text-fill-color: var(--don-crimson-bright) !important;
+  margin: 0;
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dead-of-night .don-textarea {
+  width: 100%;
+  resize: vertical;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background-color: #1c2029 !important;
+  border: 1px solid var(--don-border-dark);
+  border-radius: 6px;
+  padding: 8px;
+  font-family: var(--don-font-main);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* -------------------------------------------- */
+/*  Attributes & Dual Sliders                   */
+/* -------------------------------------------- */
+.dead-of-night .attributes-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.dead-of-night .attribute-pair-card {
+  background: var(--don-bg-dark);
+  border: 1px solid var(--don-border-dark);
+  border-radius: 6px;
+  padding: 8px 12px;
+  transition: border-color 0.2s;
+}
+
+.dead-of-night .attribute-pair-card:hover {
+  border-color: var(--don-crimson-main);
+}
+
+.dead-of-night .pair-labels {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.dead-of-night .attr-side {
+  align-items: center;
+  gap: 8px;
+}
+
+.dead-of-night .attr-name {
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.dead-of-night .attr-val {
+  background: var(--don-bg-input);
+  color: var(--don-gold) !important;
+  -webkit-text-fill-color: var(--don-gold) !important;
+  border: 1px solid var(--don-border-dark);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-weight: bold;
+  min-width: 24px;
+  text-align: center;
+}
+
+.dead-of-night .roll-attribute {
+  background: transparent;
+  border: 1px solid var(--don-border-dark);
+  color: var(--don-crimson-bright) !important;
+  -webkit-text-fill-color: var(--don-crimson-bright) !important;
+  border-radius: 4px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dead-of-night .roll-attribute:hover {
+  background: var(--don-crimson-main);
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 0 10px var(--don-crimson-glow);
+}
+
+/* Custom Dual Range Slider */
+.dead-of-night input[type="range"].attr-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #b91c1c 0%, #374151 50%, #d97706 100%);
+  outline: none;
+  margin: 4px 0;
+}
+
+.dead-of-night input[type="range"].attr-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--don-crimson-bright);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+
+.dead-of-night input[type="range"].attr-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 12px var(--don-crimson-bright);
+}
+
+/* -------------------------------------------- */
+/*  Items Lists (Specialisations)               */
+/* -------------------------------------------- */
+.dead-of-night .item-create-btn {
+  background: #1c2029 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 1px solid var(--don-crimson-main) !important;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.dead-of-night .item-create-btn:hover {
+  background: var(--don-crimson-main) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 8px var(--don-crimson-glow);
+}
+
+.dead-of-night .items-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dead-of-night .items-list .item {
+  background: var(--don-bg-dark);
+  border: 1px solid var(--don-border-dark);
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin-bottom: 6px;
+  align-items: center;
+  gap: 10px;
+}
+
+.dead-of-night .item-name {
+  font-weight: bold;
+  flex-grow: 1;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.dead-of-night .badge {
+  background: var(--don-bg-input);
+  color: #d8dee9 !important;
+  -webkit-text-fill-color: #d8dee9 !important;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--don-border-dark);
+}
+
+.dead-of-night .badge.highlight {
+  color: var(--don-gold) !important;
+  -webkit-text-fill-color: var(--don-gold) !important;
+  border-color: var(--don-gold);
+  font-weight: bold;
+}
+
+.dead-of-night .item-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.dead-of-night .item-controls a {
+  color: #d8dee9 !important;
+  -webkit-text-fill-color: #d8dee9 !important;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.dead-of-night .item-controls a:hover {
+  color: var(--don-crimson-bright) !important;
+  -webkit-text-fill-color: var(--don-crimson-bright) !important;
+}
+
+/* Item Sheet specific info-box */
+.dead-of-night .info-box {
+  background: rgba(217, 119, 6, 0.1);
+  border: 1px solid var(--don-gold);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--don-gold) !important;
+  -webkit-text-fill-color: var(--don-gold) !important;
+  font-size: 12px;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+/* -------------------------------------------- */
+/*  Floating Tension Tracker Application         */
+/* -------------------------------------------- */
+#don-tension-tracker {
+  background: var(--don-bg-dark);
+  border: 2px solid var(--don-crimson-main);
+  box-shadow: 0 0 20px var(--don-crimson-glow);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.don-tension-widget {
+  padding: 12px;
+  text-align: center;
+}
+
+.don-tension-widget .tension-header {
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  color: var(--don-crimson-bright) !important;
+  -webkit-text-fill-color: var(--don-crimson-bright) !important;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.don-tension-widget .tension-number-container {
+  margin: 6px 0;
+}
+
+.don-tension-widget .tension-number {
+  font-size: 42px;
+  font-weight: 900;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  text-shadow: 0 0 15px var(--don-crimson-bright);
+}
+
+.don-tension-widget .tension-bar-outer {
+  background: var(--don-bg-input);
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid var(--don-border-dark);
+  margin-bottom: 12px;
+}
+
+.don-tension-widget .tension-bar-inner {
+  background: linear-gradient(90deg, #991b1b 0%, #ef4444 100%);
+  height: 100%;
+  transition: width 0.3s ease-in-out;
+  box-shadow: 0 0 10px var(--don-crimson-bright);
+}
+
+.don-tension-widget .tension-controls {
+  justify-content: center;
+  gap: 8px;
+}
+
+.don-tension-widget .tension-btn {
+  background: var(--don-bg-card);
+  color: var(--don-text-light) !important;
+  border: 1px solid var(--don-border-dark);
+  border-radius: 4px;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.don-tension-widget .tension-btn:hover {
+  background: var(--don-crimson-main);
+  border-color: var(--don-crimson-bright);
+  box-shadow: 0 0 8px var(--don-crimson-glow);
+}
+
+/* -------------------------------------------- */
+/*  Chat Card Styling                           */
+/* -------------------------------------------- */
+.don-chat-card {
+  background: var(--don-bg-dark);
+  border: 1px solid var(--don-border-dark);
+  border-radius: 8px;
+  padding: 10px;
+  color: var(--don-text-light) !important;
+  font-family: var(--don-font-main);
+}
+
+.don-chat-card .card-header {
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--don-border-dark);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.don-chat-card .card-header img {
+  border-radius: 4px;
+  border: 1px solid var(--don-crimson-main);
+}
+
+.don-chat-card .actor-name {
+  font-weight: bold;
+  color: var(--don-text-light) !important;
+}
+
+.don-chat-card .roll-title {
+  font-size: 12px;
+  color: var(--don-crimson-bright) !important;
+}
+
+.don-chat-card .card-roll-details {
+  background: var(--don-bg-card);
+  border-radius: 6px;
+  padding: 8px;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.don-chat-card .dice-breakdown {
+  justify-content: space-between;
+  font-size: 12px;
+  color: #d8dee9 !important;
+}
+
+.don-chat-card .total-comparison {
+  justify-content: space-between;
+  font-size: 15px;
+  border-top: 1px solid var(--don-border-dark);
+  padding-top: 6px;
+  margin-top: 4px;
+}
+
+.don-chat-card .outcome-badge {
+  text-align: center;
+  font-weight: bold;
+  padding: 6px;
+  border-radius: 4px;
+  margin-top: 6px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.don-chat-card .outcome-badge.success {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981 !important;
+  border: 1px solid #10b981;
+}
+
+.don-chat-card .outcome-badge.failure {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444 !important;
+  border: 1px solid #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.don-chat-card .sp-reroll-btn {
+  background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 100%);
+  color: #fff !important;
+  border: 1px solid var(--don-crimson-bright);
+  border-radius: 4px;
+  padding: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.don-chat-card .sp-reroll-btn:hover {
+  background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
+  box-shadow: 0 0 12px var(--don-crimson-glow);
+}

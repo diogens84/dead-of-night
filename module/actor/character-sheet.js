@@ -1,0 +1,204 @@
+import { DeadOfNightRoll } from "../dice/roll.js";
+
+export class DeadOfNightCharacterSheet extends ActorSheet {
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      classes: ["dead-of-night", "sheet", "actor", "character-sheet"],
+      template: "systems/dead-of-night/templates/actor/character-sheet.hbs",
+      width: 680,
+      height: 780,
+      resizable: true
+    });
+  }
+
+  getData() {
+    const context = super.getData();
+    context.system = context.actor.system;
+    const attrs = context.system.attributes || {};
+
+    // Map attribute pairs showing effective values (after specialisation reductions)
+    context.attributePairs = [
+      {
+        pairKey: "identify_obscure",
+        keyA: "identify",
+        labelA: game.i18n.localize("DON.Identify"),
+        valA: attrs.effectiveIdentify ?? attrs.identify ?? 5,
+        baseValA: attrs.identify ?? 5,
+        keyB: "obscure",
+        labelB: game.i18n.localize("DON.Obscure"),
+        valB: attrs.effectiveObscure ?? attrs.obscure ?? 5,
+        baseValB: attrs.obscure ?? 5
+      },
+      {
+        pairKey: "persuade_dissuade",
+        keyA: "persuade",
+        labelA: game.i18n.localize("DON.Persuade"),
+        valA: attrs.effectivePersuade ?? attrs.persuade ?? 5,
+        baseValA: attrs.persuade ?? 5,
+        keyB: "dissuade",
+        labelB: game.i18n.localize("DON.Dissuade"),
+        valB: attrs.effectiveDissuade ?? attrs.dissuade ?? 5,
+        baseValB: attrs.dissuade ?? 5
+      },
+      {
+        pairKey: "pursue_escape",
+        keyA: "pursue",
+        labelA: game.i18n.localize("DON.Pursue"),
+        valA: attrs.effectivePursue ?? attrs.pursue ?? 5,
+        baseValA: attrs.pursue ?? 5,
+        keyB: "escape",
+        labelB: game.i18n.localize("DON.Escape"),
+        valB: attrs.effectiveEscape ?? attrs.escape ?? 5,
+        baseValB: attrs.escape ?? 5
+      },
+      {
+        pairKey: "assault_protect",
+        keyA: "assault",
+        labelA: game.i18n.localize("DON.Assault"),
+        valA: attrs.effectiveAssault ?? attrs.assault ?? 5,
+        baseValA: attrs.assault ?? 5,
+        keyB: "protect",
+        labelB: game.i18n.localize("DON.Protect"),
+        valB: attrs.effectiveProtect ?? attrs.protect ?? 5,
+        baseValB: attrs.protect ?? 5
+      }
+    ];
+
+    // Filter and format specialisations: Rating = Max(Base Pair Attributes) + 2
+    context.specialisations = context.items
+      .filter(i => i.type === "specialisation")
+      .map(i => {
+        const itemObj = i.toObject(false);
+        const itemId = i.id || i._id;
+        itemObj._id = itemId;
+        itemObj.id = itemId;
+
+        const pairKey = i.system?.attributePair || "identify_obscure";
+        let valA = attrs.identify ?? 5;
+        let valB = attrs.obscure ?? 5;
+
+        if (pairKey === "persuade_dissuade") {
+          valA = attrs.persuade ?? 5;
+          valB = attrs.dissuade ?? 5;
+        } else if (pairKey === "pursue_escape") {
+          valA = attrs.pursue ?? 5;
+          valB = attrs.escape ?? 5;
+        } else if (pairKey === "assault_protect") {
+          valA = attrs.assault ?? 5;
+          valB = attrs.protect ?? 5;
+        }
+
+        const maxPair = Math.max(valA, valB);
+        const rating = Math.min(10, maxPair + 2);
+
+        itemObj.derivedRating = rating;
+        itemObj.pairLabel = game.i18n.localize(this._getPairLocalizationKey(pairKey));
+        return itemObj;
+      });
+
+    return context;
+  }
+
+  _getPairLocalizationKey(pairKey) {
+    switch (pairKey) {
+      case "identify_obscure": return "DON.IdentifyObscure";
+      case "persuade_dissuade": return "DON.PersuadeDissuade";
+      case "pursue_escape": return "DON.PursueEscape";
+      case "assault_protect": return "DON.AssaultProtect";
+      default: return "DON.IdentifyObscure";
+    }
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    if (!this.isEditable) return;
+
+    // Synchronized Dual-Slider Input logic (A + B = 10)
+    html.find(".attr-slider").on("input change", (e) => {
+      const slider = e.currentTarget;
+      const keyA = slider.dataset.keyA;
+      const keyB = slider.dataset.keyB;
+      const valA = Math.max(0, Math.min(10, parseInt(slider.value, 10) || 0));
+      const valB = 10 - valA;
+
+      // Update UI displays in real time
+      html.find(`.attr-val[data-key="${keyA}"]`).text(valA);
+      html.find(`.attr-val[data-key="${keyB}"]`).text(valB);
+    });
+
+    // Roll Attribute
+    html.find(".roll-attribute").click(async (e) => {
+      e.preventDefault();
+      const attributeKey = e.currentTarget.dataset.attribute;
+      await DeadOfNightRoll.roll({
+        actor: this.actor,
+        attributeKey
+      });
+    });
+
+    // Roll Specialisation
+    html.find(".roll-specialisation").click(async (e) => {
+      e.preventDefault();
+      const itemElement = e.currentTarget.closest(".item");
+      const itemId = itemElement?.dataset?.itemId;
+      const item = this.actor.items.get(itemId);
+      if (!item) return;
+      
+      await DeadOfNightRoll.roll({
+        actor: this.actor,
+        item
+      });
+    });
+
+    // Spend Survival Point
+    html.find(".spend-sp-btn").click(async (e) => {
+      e.preventDefault();
+      await this.actor.spendSurvivalPoint();
+    });
+
+    // Item Management Event Listeners
+    html.find(".item-create").click(this._onItemCreate.bind(this));
+    html.find(".item-edit").click(this._onItemEdit.bind(this));
+    html.find(".item-delete").click(this._onItemDelete.bind(this));
+  }
+
+  async _onItemCreate(event) {
+    event.preventDefault();
+    const header = event.currentTarget;
+    const type = header.dataset.type || "specialisation";
+    const itemData = {
+      name: game.i18n.localize("DON.AddSpecialisation"),
+      type: type,
+      img: "icons/svg/item-bag.svg",
+      system: {
+        attributePair: "identify_obscure",
+        reductionMode: "both"
+      }
+    };
+    
+    const created = await Item.create(itemData, { parent: this.actor });
+    if (created) {
+      created.sheet.render(true);
+    }
+  }
+
+  _onItemEdit(event) {
+    event.preventDefault();
+    const itemElement = event.currentTarget.closest(".item");
+    const itemId = itemElement?.dataset?.itemId;
+    const item = this.actor.items.get(itemId);
+    if (item) {
+      item.sheet.render(true);
+    }
+  }
+
+  async _onItemDelete(event) {
+    event.preventDefault();
+    const itemElement = event.currentTarget.closest(".item");
+    const itemId = itemElement?.dataset?.itemId;
+    if (itemId) {
+      await this.actor.deleteEmbeddedDocuments("Item", [itemId]);
+    }
+  }
+}

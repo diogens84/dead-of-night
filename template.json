@@ -1,0 +1,56 @@
+{
+  "Actor": {
+    "types": ["character", "monster"],
+    "character": {
+      "concept": "",
+      "badHabits": "",
+      "attributes": {
+        "identify": { "value": 5 },
+        "obscure": { "value": 5 },
+        "persuade": { "value": 5 },
+        "dissuade": { "value": 5 },
+        "pursue": { "value": 5 },
+        "escape": { "value": 5 },
+        "assault": { "value": 5 },
+        "protect": { "value": 5 }
+      },
+      "survivalPoints": {
+        "value": 5,
+        "max": 5
+      },
+      "cliches": "",
+      "biography": ""
+    },
+    "monster": {
+      "attributes": {
+        "identify": { "value": 5 },
+        "obscure": { "value": 5 },
+        "persuade": { "value": 5 },
+        "dissuade": { "value": 5 },
+        "pursue": { "value": 5 },
+        "escape": { "value": 5 },
+        "assault": { "value": 5 },
+        "protect": { "value": 5 }
+      },
+      "survivalPoints": {
+        "value": 5,
+        "max": 10
+      },
+      "vulnerabilities": "",
+      "biography": ""
+    }
+  },
+  "Item": {
+    "types": ["specialisation", "monstrous_ability"],
+    "specialisation": {
+      "attributePair": "identify_obscure",
+      "reductionMode": "both",
+      "bonus": 2,
+      "description": ""
+    },
+    "monstrous_ability": {
+      "cost": 0,
+      "description": ""
+    }
+  }
+}

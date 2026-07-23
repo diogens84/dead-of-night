@@ -1,0 +1,30 @@
+<div class="don-tension-widget flexcol">
+  <div class="tension-header flexrow">
+    <i class="fas fa-skull"></i>
+    <span class="tension-title">{{localize "DON.TensionTrackTitle"}}</span>
+  </div>
+
+  <div class="tension-display flexcol">
+    <div class="tension-number-container">
+      <span class="tension-number">{{tension}}</span>
+    </div>
+
+    <div class="tension-bar-outer">
+      <div class="tension-bar-inner" style="width: {{tensionPercent}}%;"></div>
+    </div>
+  </div>
+
+  {{#if isGM}}
+    <div class="tension-controls flexrow">
+      <button type="button" class="tension-btn tension-btn-minus" title="Decrease Tension">
+        <i class="fas fa-minus"></i>
+      </button>
+      <button type="button" class="tension-btn tension-btn-reset" title="Reset Tension to 1">
+        <i class="fas fa-rotate-left"></i>
+      </button>
+      <button type="button" class="tension-btn tension-btn-plus" title="Increase Tension">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+  {{/if}}
+</div>

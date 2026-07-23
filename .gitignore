@@ -1,0 +1,19 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows / Linux temporary mounts
+_smb_mount
+_versions
+
+# Zip archives
+*.zip
+
+# IDEs
+.idea/
+.vscode/
