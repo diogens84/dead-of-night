@@ -14,7 +14,7 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
   async getData(options) {
     const context = await super.getData(options);
     context.system = context.actor.system;
-    const attrs = context.system.attributes || {};
+    const attrs = this.actor.system.attributes || {};
     const penalties = attrs.penalties || {};
 
     // Map attribute pairs showing effective values (after specialisation reductions)

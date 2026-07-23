@@ -10,23 +10,19 @@
     <div class="form-group flexrow">
       <label style="color: #ffffff !important;">{{localize "DON.AttributePair"}}</label>
       <select name="system.attributePair" style="color: #ffffff !important; background-color: #1c2029 !important;">
-        {{#select system.attributePair}}
-          <option value="identify_obscure" style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.IdentifyObscure"}}</option>
-          <option value="persuade_dissuade" style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.PersuadeDissuade"}}</option>
-          <option value="pursue_escape" style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.PursueEscape"}}</option>
-          <option value="assault_protect" style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.AssaultProtect"}}</option>
-        {{/select}}
+        <option value="identify_obscure" {{#if (eq system.attributePair "identify_obscure")}}selected{{/if}} style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.IdentifyObscure"}}</option>
+        <option value="persuade_dissuade" {{#if (eq system.attributePair "persuade_dissuade")}}selected{{/if}} style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.PersuadeDissuade"}}</option>
+        <option value="pursue_escape" {{#if (eq system.attributePair "pursue_escape")}}selected{{/if}} style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.PursueEscape"}}</option>
+        <option value="assault_protect" {{#if (eq system.attributePair "assault_protect")}}selected{{/if}} style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.AssaultProtect"}}</option>
       </select>
     </div>
 
     <div class="form-group flexrow">
       <label style="color: #ffffff !important;">{{localize "DON.ReductionMode"}}</label>
       <select name="system.reductionMode" style="color: #ffffff !important; background-color: #1c2029 !important;">
-        {{#select system.reductionMode}}
-          <option value="both" style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.ReductionBoth"}}</option>
-          <option value="attrA" style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.ReductionAttrA"}}</option>
-          <option value="attrB" style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.ReductionAttrB"}}</option>
-        {{/select}}
+        <option value="both" {{#if (eq system.reductionMode "both")}}selected{{/if}} style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.ReductionBoth"}}</option>
+        <option value="attrA" {{#if (eq system.reductionMode "attrA")}}selected{{/if}} style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.ReductionAttrA"}}</option>
+        <option value="attrB" {{#if (eq system.reductionMode "attrB")}}selected{{/if}} style="color: #ffffff !important; background-color: #1c2029 !important;">{{localize "DON.ReductionAttrB"}}</option>
       </select>
     </div>
 
