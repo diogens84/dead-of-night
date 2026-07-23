@@ -11,8 +11,8 @@ export class DeadOfNightMonsterSheet extends ActorSheet {
     });
   }
 
-  getData() {
-    const context = super.getData();
+  async getData(options) {
+    const context = await super.getData(options);
     context.system = context.actor.system;
 
     context.abilities = context.items.filter(i => i.type === "monstrous_ability");

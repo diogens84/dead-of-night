@@ -11,8 +11,8 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     });
   }
 
-  getData() {
-    const context = super.getData();
+  async getData(options) {
+    const context = await super.getData(options);
     context.system = context.actor.system;
     const attrs = context.system.attributes || {};
     const penalties = attrs.penalties || {};

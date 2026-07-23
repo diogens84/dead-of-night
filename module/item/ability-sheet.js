@@ -9,9 +9,9 @@ export class DeadOfNightAbilitySheet extends ItemSheet {
     });
   }
 
-  getData() {
-    const context = super.getData();
-    context.system = context.item.system;
+  async getData(options) {
+    const context = await super.getData(options);
+    context.system = this.item.system;
     return context;
   }
 }
