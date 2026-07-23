@@ -9,8 +9,48 @@ export class DeadOfNightRoll {
   static async roll({ actor, attributeKey, item = null }) {
     if (!actor) return;
 
-    const attributeValue = actor.system.attributes?.[attributeKey] ?? 0;
-    const specialisationBonus = item?.system?.bonus ?? 0;
+    let attributeValue = 0;
+    let attributeLabel = "";
+    let specialisationBonus = 0;
+    let rollTitle = "";
+
+    if (item && item.type === "specialisation") {
+      const pairKey = item.system?.attributePair || "identify_obscure";
+      const attrs = actor.system.attributes || {};
+
+      let valA = attrs.identify ?? 5;
+      let valB = attrs.obscure ?? 5;
+      let pairLabelKey = "DON.IdentifyObscure";
+
+      if (pairKey === "persuade_dissuade") {
+        valA = attrs.persuade ?? 5;
+        valB = attrs.dissuade ?? 5;
+        pairLabelKey = "DON.PersuadeDissuade";
+      } else if (pairKey === "pursue_escape") {
+        valA = attrs.pursue ?? 5;
+        valB = attrs.escape ?? 5;
+        pairLabelKey = "DON.PursueEscape";
+      } else if (pairKey === "assault_protect") {
+        valA = attrs.assault ?? 5;
+        valB = attrs.protect ?? 5;
+        pairLabelKey = "DON.AssaultProtect";
+      }
+
+      const maxPair = Math.max(valA, valB);
+      const bonus = item.system?.bonus ?? 2;
+      const derivedRating = Math.min(10, maxPair + bonus);
+
+      attributeValue = derivedRating;
+      attributeLabel = game.i18n.localize(pairLabelKey);
+      rollTitle = `${item.name} (${attributeLabel})`;
+    } else if (attributeKey) {
+      const capKey = attributeKey.charAt(0).toUpperCase() + attributeKey.slice(1);
+      const effKey = `effective${capKey}`;
+      attributeValue = actor.system.attributes?.[effKey] ?? actor.system.attributes?.[attributeKey] ?? 0;
+      attributeLabel = game.i18n.localize(`DON.${capKey}`);
+      rollTitle = attributeLabel;
+    }
+
     const totalModifier = attributeValue + specialisationBonus;
 
     // Determine Target Number (TN)
@@ -25,12 +65,10 @@ export class DeadOfNightRoll {
 
     const isSuccess = roll.total >= targetNumber;
 
-    // Prepare template data
-    const attributeLabel = game.i18n.localize(`DON.${attributeKey.charAt(0).toUpperCase() + attributeKey.slice(1)}`);
     const cardData = {
       actor,
       attributeKey,
-      attributeLabel,
+      attributeLabel: rollTitle || attributeLabel,
       attributeValue,
       item,
       specialisationBonus,

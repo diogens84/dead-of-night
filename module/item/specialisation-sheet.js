@@ -4,7 +4,9 @@ export class DeadOfNightSpecialisationSheet extends ItemSheet {
       classes: ["dead-of-night", "sheet", "item", "specialisation-sheet"],
       template: "systems/dead-of-night/templates/item/specialisation-sheet.hbs",
       width: 480,
-      height: 380
+      height: 420,
+      submitOnChange: true,
+      closeOnSubmit: false
     });
   }
 
@@ -14,18 +16,16 @@ export class DeadOfNightSpecialisationSheet extends ItemSheet {
     return context;
   }
 
+  /** @override */
+  async _updateObject(event, formData) {
+    await super._updateObject(event, formData);
+    if (this.item.actor) {
+      this.item.actor.prepareData();
+      this.item.actor.sheet.render(false);
+    }
+  }
+
   activateListeners(html) {
     super.activateListeners(html);
-
-    if (!this.isEditable) return;
-
-    // Auto-save on select/input change and refresh actor sheet immediately
-    html.find("select, input").on("change", async (e) => {
-      await this._onSubmit(e);
-      if (this.item.actor) {
-        this.item.actor.prepareData();
-        this.item.actor.sheet.render(false);
-      }
-    });
   }
 }

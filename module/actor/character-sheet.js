@@ -167,8 +167,12 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     event.preventDefault();
     const header = event.currentTarget;
     const type = header.dataset.type || "specialisation";
+    const defaultName = type === "specialisation" 
+      ? (game.i18n.localize("DON.NewSpecialisation") || "Nueva Especialización")
+      : (game.i18n.localize("DON.NewAbility") || "Nueva Habilidad");
+
     const itemData = {
-      name: game.i18n.localize("DON.AddSpecialisation"),
+      name: defaultName,
       type: type,
       img: "icons/svg/item-bag.svg",
       system: {
@@ -177,9 +181,9 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
       }
     };
     
-    const created = await Item.create(itemData, { parent: this.actor });
-    if (created) {
-      created.sheet.render(true);
+    const created = await this.actor.createEmbeddedDocuments("Item", [itemData]);
+    if (created && created.length > 0) {
+      created[0].sheet.render(true, { focus: true });
     }
   }
 

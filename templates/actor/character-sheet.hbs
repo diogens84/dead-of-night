@@ -52,11 +52,11 @@
                   <i class="fas fa-dice-d20"></i>
                 </button>
                 <span class="attr-name" style="color: #ffffff !important;">{{this.labelA}}</span>
-                <span class="attr-val" data-key="{{this.keyA}}" style="color: #d97706 !important;">{{this.valA}}</span>
+                <span class="attr-val" data-key="{{this.keyA}}" style="color: #d97706 !important;" title="Efectivo: {{this.valA}} (Base: {{this.baseValA}})">{{this.valA}}</span>
               </div>
 
               <div class="attr-side right flexrow">
-                <span class="attr-val" data-key="{{this.keyB}}" style="color: #d97706 !important;">{{this.valB}}</span>
+                <span class="attr-val" data-key="{{this.keyB}}" style="color: #d97706 !important;" title="Efectivo: {{this.valB}} (Base: {{this.baseValB}})">{{this.valB}}</span>
                 <span class="attr-name" style="color: #ffffff !important;">{{this.labelB}}</span>
                 <button type="button" class="roll-attribute" data-attribute="{{this.keyB}}" title="{{localize 'DON.Roll'}} {{this.labelB}}">
                   <i class="fas fa-dice-d20"></i>
@@ -67,7 +67,7 @@
             <div class="slider-container flexrow">
               <input type="range" 
                      name="system.attributes.{{this.keyA}}" 
-                     value="{{this.valA}}" 
+                     value="{{this.baseValA}}" 
                      min="0" 
                      max="10" 
                      class="attr-slider" 

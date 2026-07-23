@@ -10,16 +10,16 @@ export class DeadOfNightActor extends Actor {
       const attrs = systemData.attributes || {};
 
       // Parse base values strictly (A + B = 10)
-      const baseIdentify = Math.max(0, Math.min(10, parseInt(attrs.identify, 10) || 5));
+      const baseIdentify = Math.max(0, Math.min(10, parseInt(attrs.identify, 10) ?? 5));
       const baseObscure = Math.max(0, Math.min(10, 10 - baseIdentify));
 
-      const basePersuade = Math.max(0, Math.min(10, parseInt(attrs.persuade, 10) || 5));
+      const basePersuade = Math.max(0, Math.min(10, parseInt(attrs.persuade, 10) ?? 5));
       const baseDissuade = Math.max(0, Math.min(10, 10 - basePersuade));
 
-      const basePursue = Math.max(0, Math.min(10, parseInt(attrs.pursue, 10) || 5));
+      const basePursue = Math.max(0, Math.min(10, parseInt(attrs.pursue, 10) ?? 5));
       const baseEscape = Math.max(0, Math.min(10, 10 - basePursue));
 
-      const baseAssault = Math.max(0, Math.min(10, parseInt(attrs.assault, 10) || 5));
+      const baseAssault = Math.max(0, Math.min(10, parseInt(attrs.assault, 10) ?? 5));
       const baseProtect = Math.max(0, Math.min(10, 10 - baseAssault));
 
       // Calculate penalties from all active specialisation items
@@ -95,7 +95,8 @@ export class DeadOfNightActor extends Actor {
             }
 
             const maxPair = Math.max(valA, valB);
-            item.derivedRating = Math.min(10, maxPair + 2);
+            const bonus = item.system?.bonus ?? 2;
+            item.derivedRating = Math.min(10, maxPair + bonus);
           }
         }
       }
