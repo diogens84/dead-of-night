@@ -198,9 +198,12 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     
     const created = await this.actor.createEmbeddedDocuments("Item", [itemData]);
     if (created && created.length > 0) {
-      const item = created[0];
+      const createdId = created[0].id || created[0]._id;
+      const item = this.actor.items.get(createdId) || created[0];
+      item.sheet?.render(true, { focus: true });
       setTimeout(() => {
-        item.sheet?.render(true, { focus: true });
+        const liveItem = this.actor.items.get(createdId);
+        if (liveItem) liveItem.sheet?.render(true, { focus: true });
       }, 50);
     }
   }
