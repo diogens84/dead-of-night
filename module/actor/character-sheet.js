@@ -125,27 +125,6 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     super.activateListeners(html);
     const $html = $(html);
 
-    if (!this.isEditable) return;
-
-    // Synchronized Dual-Slider Input logic (A + B = 10)
-    $html.find(".attr-slider").on("input", (e) => {
-      const slider = e.currentTarget;
-      const keyA = slider.dataset.keyA;
-      const keyB = slider.dataset.keyB;
-      const penA = parseInt(slider.dataset.penA, 10) || 0;
-      const penB = parseInt(slider.dataset.penB, 10) || 0;
-
-      const baseA = Math.max(0, Math.min(10, parseInt(slider.value, 10) || 0));
-      const baseB = 10 - baseA;
-
-      const effA = Math.max(0, baseA - penA);
-      const effB = Math.max(0, baseB - penB);
-
-      // Update UI displays in real time
-      $html.find(`.attr-val[data-key="${keyA}"]`).text(effA);
-      $html.find(`.attr-val[data-key="${keyB}"]`).text(effB);
-    });
-
     // Roll Attribute
     $html.find(".roll-attribute").click(async (e) => {
       e.preventDefault();
@@ -174,6 +153,27 @@ export class DeadOfNightCharacterSheet extends ActorSheet {
     $html.find(".spend-sp-btn").click(async (e) => {
       e.preventDefault();
       await this.actor.spendSurvivalPoint();
+    });
+
+    if (!this.isEditable) return;
+
+    // Synchronized Dual-Slider Input logic (A + B = 10)
+    $html.find(".attr-slider").on("input", (e) => {
+      const slider = e.currentTarget;
+      const keyA = slider.dataset.keyA;
+      const keyB = slider.dataset.keyB;
+      const penA = parseInt(slider.dataset.penA, 10) || 0;
+      const penB = parseInt(slider.dataset.penB, 10) || 0;
+
+      const baseA = Math.max(0, Math.min(10, parseInt(slider.value, 10) || 0));
+      const baseB = 10 - baseA;
+
+      const effA = Math.max(0, baseA - penA);
+      const effB = Math.max(0, baseB - penB);
+
+      // Update UI displays in real time
+      $html.find(`.attr-val[data-key="${keyA}"]`).text(effA);
+      $html.find(`.attr-val[data-key="${keyB}"]`).text(effB);
     });
 
     // Item Management Event Listeners

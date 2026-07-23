@@ -61,9 +61,10 @@ export class DeadOfNightRoll {
     // Create 2d10 roll formula
     const rollFormula = `2d10 + ${totalModifier}`;
     const roll = new Roll(rollFormula);
-    await roll.evaluate({ async: true });
+    await roll.evaluate();
 
     const isSuccess = roll.total >= targetNumber;
+    const diceResults = roll.terms?.find(t => t.results)?.results?.map(r => r.result) ?? roll.dice[0]?.results?.map(r => r.result) ?? [];
 
     const cardData = {
       actor,
@@ -75,7 +76,7 @@ export class DeadOfNightRoll {
       totalModifier,
       targetNumber,
       rollTotal: roll.total,
-      diceResults: roll.dice[0]?.results?.map(r => r.result) ?? [],
+      diceResults,
       isSuccess,
       canSpendSP: (actor.system.survivalPoints?.value ?? 0) > 0
     };
@@ -83,11 +84,15 @@ export class DeadOfNightRoll {
     // Render HTML card
     const html = await renderTemplate("systems/dead-of-night/templates/chat/roll-card.hbs", cardData);
 
+    const messageStyle = CONST.CHAT_MESSAGE_STYLES?.ROLL ?? CONST.CHAT_MESSAGE_TYPES?.ROLL ?? 5;
+
     const chatData = {
       user: game.user.id,
       speaker: ChatMessage.getSpeaker({ actor }),
-      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-      roll,
+      style: messageStyle,
+      type: messageStyle,
+      rolls: [roll],
+      roll: roll,
       content: html,
       flags: {
         "dead-of-night": {
